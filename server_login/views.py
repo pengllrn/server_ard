@@ -17,3 +17,6 @@ def ard_login(request,user_id,user_pwd):
             return HttpResponse("true")
     msg.write_msg(request.META.get("REMOTE_ADDR") + " login debeat!"+'\n')
     return HttpResponse("false")
+
+def index(request):
+    return HttpResponse("OK")
