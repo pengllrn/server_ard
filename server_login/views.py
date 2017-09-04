@@ -19,4 +19,5 @@ def ard_login(request,user_id,user_pwd):
     return HttpResponse("false")
 
 def index(request):
+    print "sja"
     return HttpResponse("OK")
