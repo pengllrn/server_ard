@@ -3,8 +3,11 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from . import models
 from . import log
+import json
 
 # Create your views here.
 def ard_login(request,user_id,user_pwd):
@@ -18,6 +21,18 @@ def ard_login(request,user_id,user_pwd):
     msg.write_msg(request.META.get("REMOTE_ADDR") + " login debeat!"+'\n')
     return HttpResponse("false")
 
-def index(request):
+@csrf_exempt
+def getFruits(request):
+    fruits = models.Fruits.objects.all().order_by("-id")
+    fruit = fruits[0:99]
+    # for fruit in fruits:
+    #     d[fruit.id] = fruit.fruitname
+    c = {"fruits":formatDicts(fruit),}
+    return HttpResponse(json.dumps(c["fruits"]))
 
-    return HttpResponse("OK")
+def formatDicts(objs):
+    obj_arr=[]
+    for o in objs:
+        obj_arr.append(o.format())
+    return obj_arr
+
